@@ -21,7 +21,10 @@ const SpaceMenu = () => {
         <div>
             <div className="flex gap-8">
                 {menuOptions.map((item) => (
-                    <div className="cursor-pointer rounded-3xl p-8 bg-secondary flex flex-col justify-center items-center">
+                    <div
+                        key={item.title}
+                        className="cursor-pointer rounded-3xl p-8 bg-secondary flex flex-col justify-center items-center"
+                    >
                         <div>{item.icon}</div>
                         <h1 className="text-2xl text-primary font-bold">
                             {item.title}
