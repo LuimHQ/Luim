@@ -1,23 +1,6 @@
-import { Metadata } from 'next';
+import { useState } from 'react';
 import { Button, Card } from 'ui';
-import SpaceMenu from '../components/SpaceMenu';
-
-const CARD_CONTENT = [
-    {
-        title: 'Setup personal space',
-        href: 'https://turbo.build/repo/docs/core-concepts/caching',
-        cta: 'Read More',
-    },
-    {
-        title: 'Open an existing space',
-        href: 'https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks',
-        cta: 'Read More',
-    },
-];
-
-export const metadata: Metadata = {
-    title: 'Luim-Knowledge at space',
-};
+import SpaceMenu from '@components/SpaceMenu';
 
 export default function Home() {
     return (

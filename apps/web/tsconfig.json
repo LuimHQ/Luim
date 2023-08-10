@@ -1,10 +1,12 @@
 {
   "extends": "tsconfig/nextjs.json",
   "compilerOptions": {
+	 // This means ts will compiled down to ECMAScript 2015(ES6)
+	"target": "ES6",
     "plugins": [{ "name": "next" }], 
 		"paths": {
 			"@components/*": ["./src/components/*"],
-			// "@contexts/*": ["./src/contexts/*"],
+			 "@contexts/*": ["./src/contexts/*"],
 			// "@pages/*": ["./pages/*"],
 			"@styles/*": ["./src/styles/*"],
 			// "@utils/*": ["./utils/*"],
