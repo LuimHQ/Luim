@@ -9,11 +9,11 @@
 			 "@contexts/*": ["./src/contexts/*"],
 			// "@pages/*": ["./pages/*"],
 			"@styles/*": ["./src/styles/*"],
+			"@lib/*": ["./src/lib/*"]
 			// "@utils/*": ["./utils/*"],
 			// "@hooks/*": ["./hooks/*"],
 			// "@types/*": ["./types/*"],
 			// "@public/*": ["./public/*"],
-			"@lib/*": ["./src/lib/*"]
 		}
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
