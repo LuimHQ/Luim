@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import { createContext, useState } from 'react';
-type FileContextValues = {
+export type FileContextValues = {
     files: File[] | null;
     setFiles: React.Dispatch<React.SetStateAction<File[] | null>>;
 };

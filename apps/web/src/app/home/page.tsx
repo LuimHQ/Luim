@@ -1,17 +1,17 @@
 'use client';
 import { Input } from '@components/ui/Input';
 import { FilesContext } from '@contexts/FilesContext';
+import { FileContextValues } from '@contexts/FilesContext';
 import React, { useContext, useEffect, useState } from 'react';
 const Home = () => {
     const [searchKey, setSearchKey] = useState('');
-    const { files } = useContext(FilesContext);
-    const [filtered, setFiltered] = useState(files);
+    const fileObj = useContext(FilesContext);
+    const [filtered, setFiltered] = useState(fileObj?.files);
     useEffect(() => {
         setFiltered(
-            files &&
-                files.filter((item) =>
-                    item.webkitRelativePath.toLowerCase().match(searchKey)
-                )
+            fileObj?.files?.filter((item) =>
+                item.webkitRelativePath.toLowerCase().match(searchKey)
+            )
         );
     }, [searchKey]);
     return (

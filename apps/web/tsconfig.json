@@ -1,21 +1,41 @@
 {
   "extends": "tsconfig/nextjs.json",
   "compilerOptions": {
-	 // This means ts will compiled down to ECMAScript 2015(ES6)
-	"target": "ES6",
-    "plugins": [{ "name": "next" }], 
-		"paths": {
-			"@components/*": ["./src/components/*"],
-			 "@contexts/*": ["./src/contexts/*"],
-			// "@pages/*": ["./pages/*"],
-			"@styles/*": ["./src/styles/*"],
-			"@lib/*": ["./src/lib/*"]
-			// "@utils/*": ["./utils/*"],
-			// "@hooks/*": ["./hooks/*"],
-			// "@types/*": ["./types/*"],
-			// "@public/*": ["./public/*"],
-		}
+    // This means ts will compiled down to ECMAScript 2015(ES6)
+    "target": "ES6",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@contexts/*": [
+        "./src/contexts/*"
+      ],
+      // "@pages/*": ["./pages/*"],
+      "@styles/*": [
+        "./src/styles/*"
+      ],
+      "@lib/*": [
+        "./src/lib/*"
+      ]
+      // "@utils/*": ["./utils/*"],
+      // "@hooks/*": ["./hooks/*"],
+      // "@types/*": ["./types/*"],
+      // "@public/*": ["./public/*"],
+    },
+    "strictNullChecks": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
