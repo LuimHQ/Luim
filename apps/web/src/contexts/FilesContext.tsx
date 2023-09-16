@@ -10,6 +10,7 @@ export type FileContextValues = {
  * FilesContext would provide values of type FileContextValues or null
  * through the FileContext.Provider
  */
+
 export const FilesContext = createContext<FileContextValues | null>(null);
 export const FilesContextProvider = ({ children }) => {
     const [files, setFiles] = useState<File[] | null>(null);

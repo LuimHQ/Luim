@@ -8,9 +8,10 @@ const Home = () => {
     const fileObj = useContext(FilesContext);
     const [filtered, setFiltered] = useState(fileObj?.files);
     useEffect(() => {
+        console.log('FileObj here: ', fileObj);
         setFiltered(
             fileObj?.files?.filter((item) =>
-                item.webkitRelativePath.toLowerCase().match(searchKey)
+                item?.webkitRelativePath?.toLowerCase().match(searchKey)
             )
         );
     }, [searchKey]);

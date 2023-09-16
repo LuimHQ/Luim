@@ -2,6 +2,9 @@
   "extends": "tsconfig/nextjs.json",
   "compilerOptions": {
     // This means ts will compiled down to ECMAScript 2015(ES6)
+    "lib": [
+      "dom","dom.iterable"
+    ],
     "target": "ES6",
     "plugins": [
       {

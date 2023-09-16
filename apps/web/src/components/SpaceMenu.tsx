@@ -14,8 +14,8 @@ const menuOptions = [
 ];
 
 const SpaceMenu = () => {
-    const { files, setFiles } = useContext(FilesContext);
-    const ref = useRef(null); // To ref the input element
+    const fileObj = useContext(FilesContext);
+    const ref = useRef<HTMLInputElement>(null); // To ref the input element
     const router = useRouter();
 
     // Setting webKitDirectory and directory property
@@ -29,13 +29,18 @@ const SpaceMenu = () => {
     // on clicking the select folder div, the input element will be clicked
     // also
     const handleSelectFolder = async () => {
-        ref.current.click();
+        ref?.current?.click();
     };
 
     // e.target.files is an object of type FileList
     const listFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const filesArray = [...e.target.files];
-        setFiles([...filesArray]);
+        console.log('Files are here: ', e.target.files);
+        const filesArray = [...[e.target.files]];
+        console.log('File array: ', filesArray);
+        if (filesArray[0]) {
+            console.log('File array[0]: ', filesArray[0]);
+            fileObj?.setFiles([...[...filesArray[0]]]);
+        }
         router.push('/home');
     };
     return (
