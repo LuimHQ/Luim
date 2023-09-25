@@ -18,18 +18,16 @@ const SpaceMenu = () => {
     const ref = useRef<HTMLInputElement>(null); // To ref the input element
     const router = useRouter();
 
-    // Setting webKitDirectory and directory property
-    useEffect(() => {
-        if (ref.current != null) {
-            ref.current.setAttribute('directory', '');
-            ref.current.setAttribute('webKitDirectory', '');
-        }
-    }, [ref]);
-
-    // on clicking the select folder div, the input element will be clicked
-    // also
     const handleSelectFolder = async () => {
-        ref?.current?.click();
+        if ('showOpenFilePicker' in window) {
+            const dirHandler = await window.showDirectoryPicker({
+                mode: 'readwrite',
+            });
+            console.log(dirHandler);
+            for await (const entry of dirHandler.values()) {
+                console.log(entry);
+            }
+        }
     };
 
     // e.target.files is an object of type FileList
@@ -52,16 +50,6 @@ const SpaceMenu = () => {
                         key={item.title}
                         className="duration-100 ease-linear cursor-pointer  hover:bg-slate-900 rounded-3xl p-8 bg-secondary flex flex-row justify-center items-center gap-8"
                     >
-                        <input
-                            className="hidden"
-                            type="file"
-                            ref={ref}
-                            onChange={(e) => {
-                                // If user choose folder, allows to upload it
-                                // we'll list files
-                                listFiles(e);
-                            }}
-                        />
                         <div>{item.icon}</div>
                         <div className="text-left">
                             <h1 className="text-xl text-primary font-bold">
