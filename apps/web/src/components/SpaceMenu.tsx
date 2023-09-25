@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaFolderPlus, FaFolderOpen } from 'react-icons/fa';
 import { FilesContext } from '@contexts/FilesContext';
+import Folder from '@models/Folder';
+import File from '@models/File';
 const iconStyle = 'w-24 h-24 text-muted-foreground';
 const menuOptions = [
     {
@@ -13,34 +15,41 @@ const menuOptions = [
     },
 ];
 
+let rootFolder: Folder;
+let { rootFolder, setRootFolder } = useContext(FilesContext);
+const iterateFileSystemItem = async (folder: Folder) => {
+    const folderHandler = folder.getHandler() as FileSystemDirectoryHandle;
+    for await (const entry of folderHandler.values()) {
+        if (entry.kind == 'directory') {
+            const currFolder = new Folder(entry.name, entry);
+            folder.addChild(currFolder);
+            iterateFileSystemItem(currFolder);
+        } else {
+            const currFile = new File(entry.name, entry);
+            folder.addChild(currFile);
+        }
+    }
+};
 const SpaceMenu = () => {
     const fileObj = useContext(FilesContext);
     const ref = useRef<HTMLInputElement>(null); // To ref the input element
     const router = useRouter();
 
     const handleSelectFolder = async () => {
-        if ('showOpenFilePicker' in window) {
-            const dirHandler = await window.showDirectoryPicker({
-                mode: 'readwrite',
-            });
-            console.log(dirHandler);
-            for await (const entry of dirHandler.values()) {
-                console.log(entry);
-            }
-        }
+        const dirHandler = await window.showDirectoryPicker({
+            mode: 'readwrite',
+        });
+
+        rootFolder = new Folder(dirHandler.name, dirHandler);
+        console.log(dirHandler);
+
+        iterateFileSystemItem(rootFolder);
+
+        console.log(rootFolder);
+        router.push('/home');
     };
 
     // e.target.files is an object of type FileList
-    const listFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('Files are here: ', e.target.files);
-        const filesArray = [...[e.target.files]];
-        console.log('File array: ', filesArray);
-        if (filesArray[0]) {
-            console.log('File array[0]: ', filesArray[0]);
-            fileObj?.setFiles([...[...filesArray[0]]]);
-        }
-        router.push('/home');
-    };
     return (
         <div>
             <div className="flex flex-col md:flex-row gap-8">
