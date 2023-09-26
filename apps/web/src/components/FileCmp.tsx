@@ -3,7 +3,7 @@ import File from '@models/File';
 
 interface fileCmpProps {
     file: File;
-    matched: string | undefined;
+    matched?: string;
 }
 const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
     const name: string =
