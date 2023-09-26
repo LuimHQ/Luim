@@ -17,7 +17,7 @@ const menuOptions = [
 
 let tempRootFolder: Folder;
 const iterateFileSystemItem = async (folder: Folder) => {
-    const folderHandler = folder.getHandler() as FileSystemDirectoryHandle;
+    const folderHandler: any = folder.getHandler();
     for await (const entry of folderHandler.values()) {
         if (entry.kind == 'directory') {
             const currFolder = new Folder(entry.name, entry);
