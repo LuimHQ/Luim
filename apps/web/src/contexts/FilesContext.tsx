@@ -1,9 +1,10 @@
 'use client';
+import Folder from '@models/Folder';
 import React from 'react';
 import { createContext, useState } from 'react';
-export type FileContextValues = {
-    files: File[] | null;
-    setFiles: React.Dispatch<React.SetStateAction<File[] | null>>;
+export type FolderContextValue = {
+    rootFolder: Folder | null;
+    setRootFolder: React.Dispatch<React.SetStateAction<Folder | null>>;
 };
 
 /*
@@ -11,11 +12,11 @@ export type FileContextValues = {
  * through the FileContext.Provider
  */
 
-export const FilesContext = createContext<FileContextValues | null>(null);
+export const FilesContext = createContext<FolderContextValue | null>(null);
 export const FilesContextProvider = ({ children }) => {
-    const [files, setFiles] = useState<File[] | null>(null);
+    const [rootFolder, setRootFolder] = useState<Folder | null>(null);
     return (
-        <FilesContext.Provider value={{ files, setFiles }}>
+        <FilesContext.Provider value={{ rootFolder, setRootFolder }}>
             {children}
         </FilesContext.Provider>
     );
