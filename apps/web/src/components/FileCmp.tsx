@@ -1,11 +1,55 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import File from '@models/File';
+import { BsPencil, BsTrash } from 'react-icons/bs';
+
+import {
+    ContextMenu,
+    ContextMenuContent,
+    ContextMenuItem,
+    ContextMenuTrigger,
+} from '@components/ui/context-menu';
+import { ContextMenuSeparator } from '@radix-ui/react-context-menu';
+import { AiOutlineAlignLeft } from 'react-icons/ai';
 
 interface fileCmpProps {
     file: File;
     matched?: string;
 }
+
+const fileOptions = [
+    {
+        displayText: 'Open file',
+        icon: AiOutlineAlignLeft,
+    },
+    {
+        displayText: 'Rename file',
+        icon: BsPencil,
+    },
+    {
+        displayText: 'Delete file',
+        icon: BsTrash,
+        style: 'destructive',
+    },
+];
 const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
+    const [onContext, setonContext] = useState(false);
+    const ref = React.useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const listenOutside = (event) => {
+            if (
+                ref.current &&
+                !ref.current.contains(event.target) &&
+                onContext
+            ) {
+                setonContext(false);
+            }
+            return () => {
+                document.removeEventListener('mousedown', listenOutside);
+            };
+        };
+        document.addEventListener('mousedown', listenOutside);
+    });
+
     const name: string =
         file.getName().length > 40
             ? file.getName().slice(0, 35) + ' ...'
@@ -22,7 +66,12 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
         console.log(suffix, ' ', match, ' ', prefix);
         return (
             <div
-                className="w-full ml-8 text-base py-2 hover:bg-secondary duration-100 px-1.5 rounded-sm cursor-pointer"
+                onContextMenu={() => {
+                    setonContext(!onContext);
+                }}
+                className={`w-full ml-8 text-base py-2 hover:bg-secondary duration-100 px-1.5 rounded-sm cursor-pointer ${
+                    onContext ? 'bg-secondary' : 'bg-transparent'
+                }`}
                 draggable={true}
             >
                 {prefix}
@@ -32,9 +81,40 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
         );
     } else
         return (
-            <div className="w-full ml-8 text-base py-2 hover:bg-secondary duration-100 px-1.5 rounded-sm cursor-pointer">
-                {name}
-            </div>
+            <ContextMenu>
+                <ContextMenuTrigger>
+                    <div
+                        ref={ref}
+                        onContextMenu={() => {
+                            setonContext(!onContext);
+                        }}
+                        className={`w-full ml-8 text-base py-2 hover:bg-secondary duration-100 px-1.5 rounded-sm cursor-pointer ${
+                            onContext ? 'bg-secondary' : 'bg-transparent'
+                        }`}
+                    >
+                        {name}
+                    </div>
+                </ContextMenuTrigger>
+                <ContextMenuContent className="p-2 bg-muted-foreground text-background">
+                    {fileOptions.map((item, index) => (
+                        <ContextMenuItem
+                            className={`cursor-pointer px-4 ${
+                                item.style == 'destructive'
+                                    ? 'text-destructive'
+                                    : 'bg-transparent'
+                            }`}
+                            key={index}
+                        >
+                            <div className="flex flex-flow gap-2">
+                                <div>
+                                    <item.icon className="w-5 h-5" />
+                                </div>
+                                <div>{item.displayText}</div>
+                            </div>
+                        </ContextMenuItem>
+                    ))}
+                </ContextMenuContent>
+            </ContextMenu>
         );
 };
 
