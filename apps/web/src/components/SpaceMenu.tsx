@@ -37,8 +37,8 @@ const SpaceMenu = () => {
 
     const handleSelectFolder = async () => {
         let dirHandler;
-        if (typeof window.showDirectoryPicker === 'function') {
-            dirHandler = await window.showDirectoryPicker({
+        if (typeof (window as any).showDirectoryPicker === 'function') {
+            dirHandler = await (window as any).showDirectoryPicker({
                 mode: 'readwrite',
             });
         } else {
