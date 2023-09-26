@@ -36,9 +36,17 @@ const SpaceMenu = () => {
     const router = useRouter();
 
     const handleSelectFolder = async () => {
-        const dirHandler = await window.showDirectoryPicker({
-            mode: 'readwrite',
-        });
+        let dirHandler;
+        if (typeof window.showDirectoryPicker === 'function') {
+            dirHandler = await window.showDirectoryPicker({
+                mode: 'readwrite',
+            });
+        } else {
+            console.error(
+                'showDirectoryPicker is not supported on the browser!'
+            );
+            return;
+        }
 
         tempRootFolder = new Folder(dirHandler.name, dirHandler);
         console.log(dirHandler);
