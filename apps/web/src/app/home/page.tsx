@@ -39,7 +39,7 @@ const Home = () => {
     useEffect(() => {
         setFiltered(
             files?.filter((item: FileSystemItem) =>
-                item?.getName().toLowerCase().match(query)
+                item?.getName().toLowerCase().match(query.toLowerCase())
             )
         );
     }, [query]);
