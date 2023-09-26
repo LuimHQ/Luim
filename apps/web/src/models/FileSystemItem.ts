@@ -9,6 +9,9 @@ class FileSystemItem {
     getHandler(): FileSystemFileHandle | FileSystemDirectoryHandle {
         return this.handler;
     }
+    getName(): string {
+        return this.name;
+    }
 }
 
 export default FileSystemItem;

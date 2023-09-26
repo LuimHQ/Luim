@@ -15,8 +15,7 @@ const menuOptions = [
     },
 ];
 
-let rootFolder: Folder;
-let { rootFolder, setRootFolder } = useContext(FilesContext);
+let tempRootFolder: Folder;
 const iterateFileSystemItem = async (folder: Folder) => {
     const folderHandler = folder.getHandler() as FileSystemDirectoryHandle;
     for await (const entry of folderHandler.values()) {
@@ -31,6 +30,7 @@ const iterateFileSystemItem = async (folder: Folder) => {
     }
 };
 const SpaceMenu = () => {
+    let contextObj = useContext(FilesContext);
     const fileObj = useContext(FilesContext);
     const ref = useRef<HTMLInputElement>(null); // To ref the input element
     const router = useRouter();
@@ -40,12 +40,11 @@ const SpaceMenu = () => {
             mode: 'readwrite',
         });
 
-        rootFolder = new Folder(dirHandler.name, dirHandler);
+        tempRootFolder = new Folder(dirHandler.name, dirHandler);
         console.log(dirHandler);
 
-        iterateFileSystemItem(rootFolder);
-
-        console.log(rootFolder);
+        iterateFileSystemItem(tempRootFolder);
+        contextObj?.setRootFolder(tempRootFolder);
         router.push('/home');
     };
 
