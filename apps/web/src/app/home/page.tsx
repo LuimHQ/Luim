@@ -8,6 +8,7 @@ import { LuSearch } from 'react-icons/lu';
 import React, { useContext, useEffect, useState } from 'react';
 import FileCmp from '@components/FileCmp';
 import FileSystemItem from '@models/FileSystemItem';
+import MarkdownEditor from '@components/MarkdownEditor';
 
 const recur = async (folder, entries, setFiles) => {
     const children = await folder.getChildren();
@@ -44,6 +45,7 @@ const Home = () => {
         );
     }, [query]);
     return (
+        <div className='flex flex-row gap-2 w-full h-full'>
         <div className="flex flex-col mt-20 w-72 gap-4">
             <div className="flex flex-row ml-8 gap-2 bg-muted p-2 rounded-sm transition-all">
                 <div
@@ -95,7 +97,10 @@ const Home = () => {
             <div className={`${toolOptions[0] ? 'flex' : 'hidden'}`}>
                 <FileTreeData />
             </div>
-            <div></div>
+        </div>
+        <div className='w-full h-full mt-20' >
+            <MarkdownEditor />
+            </div>
         </div>
     );
 };
