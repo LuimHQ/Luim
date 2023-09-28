@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import File from '@models/File';
 import { BsPencil, BsTrash } from 'react-icons/bs';
+import FileService from '@models/FileService';
+import { FilesContext } from '@contexts/FilesContext';
 
 import {
     ContextMenu,
@@ -16,22 +18,28 @@ interface fileCmpProps {
     matched?: string;
 }
 
-const fileOptions = [
-    {
-        displayText: 'Open file',
-        icon: AiOutlineAlignLeft,
-    },
-    {
-        displayText: 'Rename file',
-        icon: BsPencil,
-    },
-    {
-        displayText: 'Delete file',
-        icon: BsTrash,
-        style: 'destructive',
-    },
-];
+
 const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
+    const contextObject = useContext(FilesContext);
+    const setCurrFile = () => {
+        contextObject?.setCurrFile(file);
+    }
+    const fileOptions = [
+        {
+            displayText: 'Open file',
+            icon: AiOutlineAlignLeft,
+            handler: setCurrFile,
+        },
+        {
+            displayText: 'Rename file',
+            icon: BsPencil,
+        },
+        {
+            displayText: 'Delete file',
+            icon: BsTrash,
+            style: 'destructive',
+        },
+    ];
     const [onContext, setonContext] = useState(false);
     const ref = React.useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -85,8 +93,11 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
                 <ContextMenuTrigger>
                     <div
                         ref={ref}
-                        onContextMenu={() => {
+                        onContextMenu={async () => {
                             setonContext(!onContext);
+                        }}
+                        onClick={() => {
+                            setCurrFile();
                         }}
                         className={`w-full ml-8 text-base py-2 hover:bg-secondary duration-100 px-1.5 rounded-sm cursor-pointer ${
                             onContext ? 'bg-secondary' : 'bg-transparent'
@@ -98,6 +109,7 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
                 <ContextMenuContent className="p-2 bg-muted-foreground text-background">
                     {fileOptions.map((item, index) => (
                         <ContextMenuItem
+                            onClick={item.handler}
                             className={`cursor-pointer px-4 ${
                                 item.style == 'destructive'
                                     ? 'text-destructive'
