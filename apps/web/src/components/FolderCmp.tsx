@@ -61,7 +61,7 @@ const FolderCmp: React.FC<folderCmpProps> = ({ folder }) => {
         document.addEventListener('mousedown', listenOutside);
     });
     return (
-        <div className="cursor-pointer ml-8">
+        <div className={`cursor-pointer w-full`}>
             <ContextMenu>
                 <ContextMenuTrigger>
                     <div
@@ -73,7 +73,7 @@ const FolderCmp: React.FC<folderCmpProps> = ({ folder }) => {
                         onContextMenu={() => {
                             setonContext(!onContext);
                         }}
-                        className={`flex flex-row gap-1 items-center text-base pt-1.5 pb-1.5 hover:bg-secondary duration-100 pl-1.5 rounded-sm ${
+                        className={`flex flex-row gap-1 items-center text-base pt-1.5 pb-1.5 hover:bg-secondary duration-100 rounded-sm ${
                             onContext ? 'bg-secondary' : 'bg-transparent'
                         }`}
                     >
@@ -84,16 +84,20 @@ const FolderCmp: React.FC<folderCmpProps> = ({ folder }) => {
                                 }`}
                             />
                         </div>
-                        <div>{folder.getName()}</div>
+                        <div className="break-words text-sm">
+                            {folder.getName().length > 40
+                                ? folder.getName().slice(0, 35) + ' ...'
+                                : folder.getName()}
+                        </div>
                     </div>
                 </ContextMenuTrigger>
-                <ContextMenuContent className="p-2 bg-muted-foreground text-background">
+                <ContextMenuContent className="p-3 bg-background/90 text-foreground backdrop-blur-lg border-foreground/50 shadow-xl">
                     {folderOptions.map((item, index) => (
                         <ContextMenuItem
-                            className={`cursor-pointer px-4 ${
+                            className={`h-9 cursor-pointer px-4 backdrop-blur-xl ${
                                 item.style == 'destructive'
                                     ? 'text-destructive'
-                                    : 'bg-transparent'
+                                    : ''
                             }`}
                             key={index}
                         >
@@ -107,14 +111,14 @@ const FolderCmp: React.FC<folderCmpProps> = ({ folder }) => {
                     ))}
                 </ContextMenuContent>
             </ContextMenu>
-            <div>
-                <div
-                    className={`${
-                        opened ? 'flex' : 'hidden'
-                    } border-l border-l-secondary`}
-                >
-                    <FileTree entry={folder} />
-                </div>
+            <div className="max-w-full">
+                {opened && (
+                    <div
+                        className={`flex transition-all duration-150 border-l border-l-secondary ml-3`}
+                    >
+                        <FileTree entry={folder} />
+                    </div>
+                )}
             </div>
         </div>
     );

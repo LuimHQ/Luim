@@ -11,7 +11,7 @@ interface fileTreeProp {
 
 const FileTree: React.FC<fileTreeProp> = ({ entry }) => {
     return (
-        <div className="w-full">
+        <div className="w-full pl-4">
             {entry?.getChildren().map((item, index) => (
                 <div className="text-primary" key={index}>
                     {item.getHandler().kind == 'directory' ? (
