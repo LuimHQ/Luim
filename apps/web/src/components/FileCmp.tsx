@@ -18,12 +18,25 @@ interface fileCmpProps {
     matched?: string;
 }
 
-
 const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
+    const [renameFileState, setRenameFileState] = useState<boolean>(false);
     const contextObject = useContext(FilesContext);
     const setCurrFile = () => {
         contextObject?.setCurrFile(file);
-    }
+    };
+
+    const renameFile = () => {
+        setRenameFileState(true);
+        if (ref.current) {
+            const range = document.createRange();
+            range.selectNodeContents(ref.current);
+            const selection = window.getSelection();
+            if (selection) {
+                selection?.removeAllRanges();
+                selection?.addRange(range);
+            }
+        }
+    };
     const fileOptions = [
         {
             displayText: 'Open file',
@@ -33,6 +46,7 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
         {
             displayText: 'Rename file',
             icon: BsPencil,
+            handler: renameFile,
         },
         {
             displayText: 'Delete file',
@@ -77,7 +91,7 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
                 onContextMenu={() => {
                     setonContext(!onContext);
                 }}
-                className={`w-full ml-8 text-base py-2 hover:bg-secondary duration-100 px-1.5 rounded-sm cursor-pointer ${
+                className={`w-full ml-8 py-2 hover:bg-secondary duration-100 px-1.5 rounded-sm cursor-pointer ${
                     onContext ? 'bg-secondary' : 'bg-transparent'
                 }`}
                 draggable={true}
@@ -99,14 +113,25 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
                         onClick={() => {
                             setCurrFile();
                         }}
-                        className={`w-full ml-8 text-base py-2 hover:bg-secondary duration-100 px-1.5 rounded-sm cursor-pointer ${
+                        onBlur={() => {
+                            if (renameFileState) {
+                                if (ref.current?.textContent != null)
+                                    FileService.renameFile(
+                                        file,
+                                        ref.current?.textContent
+                                    );
+                                setRenameFileState(false);
+                            }
+                        }}
+                        className={`w-full  text-sm py-2 hover:bg-secondary duration-100 px-1.5 rounded-sm cursor-pointer break-words ${
                             onContext ? 'bg-secondary' : 'bg-transparent'
                         }`}
+                        contentEditable={renameFileState}
                     >
                         {name}
                     </div>
                 </ContextMenuTrigger>
-                <ContextMenuContent className="p-2 bg-muted-foreground text-background">
+                <ContextMenuContent className="p-3 bg-background/90 text-foreground backdrop-blur-lg border-foreground/50 shadow-xl">
                     {fileOptions.map((item, index) => (
                         <ContextMenuItem
                             onClick={item.handler}

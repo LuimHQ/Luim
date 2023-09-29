@@ -1,12 +1,14 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaFolderPlus, FaFolderOpen } from 'react-icons/fa';
 import { FilesContext } from '@contexts/FilesContext';
 import Folder from '@models/Folder';
 import File from '@models/File';
-const iconStyle = 'w-24 h-24 text-muted-foreground';
+import Loading from '@components/ui/Loading';
+import { Progress } from '@components/ui/progress';
+const iconStyle = 'w-24 h-24 text-primary';
 const menuOptions = [
     {
         title: 'Open or create a new space',
@@ -16,20 +18,29 @@ const menuOptions = [
 ];
 
 let tempRootFolder: Folder;
-const iterateFileSystemItem = async (folder: Folder) => {
+const iterateFileSystemItem = async (folder: Folder, [currState, setState]) => {
     const folderHandler: any = folder.getHandler();
+    const promises: Promise<void>[] = [];
     for await (const entry of folderHandler.values()) {
+        currState++;
+        // console.log(currState);
+        setState(currState);
         if (entry.kind == 'directory') {
             const currFolder = new Folder(entry.name, entry);
             folder.addChild(currFolder);
-            iterateFileSystemItem(currFolder);
+            promises.push(
+                iterateFileSystemItem(currFolder, [currState + 1, setState])
+            );
         } else {
             const currFile = new File(entry.name, entry);
             folder.addChild(currFile);
         }
     }
+    await Promise.all(promises);
 };
 const SpaceMenu = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [currState, setState] = useState(0);
     let contextObj = useContext(FilesContext);
     const fileObj = useContext(FilesContext);
     const ref = useRef<HTMLInputElement>(null); // To ref the input element
@@ -50,10 +61,15 @@ const SpaceMenu = () => {
 
         tempRootFolder = new Folder(dirHandler.name, dirHandler);
         console.log(dirHandler);
-
-        iterateFileSystemItem(tempRootFolder);
+        setIsLoading(true);
+        await iterateFileSystemItem(tempRootFolder, [currState, setState]).then(
+            () => {
+                console.log('false now');
+                router.push('/home');
+                setIsLoading(false);
+            }
+        );
         contextObj?.setRootFolder(tempRootFolder);
-        router.push('/home');
     };
 
     // e.target.files is an object of type FileList
@@ -64,11 +80,11 @@ const SpaceMenu = () => {
                     <button
                         onClick={handleSelectFolder}
                         key={item.title}
-                        className="duration-100 ease-linear cursor-pointer  hover:bg-slate-900 rounded-3xl p-8 bg-secondary flex flex-row justify-center items-center gap-8"
+                        className="duration-100 ease-linear cursor-pointer border-[3px] border-secondary border-dashed  hover:bg-foreground/10 rounded-3xl p-8 bg-transparent flex flex-row justify-center items-center gap-8"
                     >
-                        <div>{item.icon}</div>
+                        <div className="text-primary">{item.icon}</div>
                         <div className="text-left">
-                            <h1 className="text-xl text-primary font-bold">
+                            <h1 className="text-xl text-primary font-bold [word-spacing:-3px]">
                                 {item.title}
                             </h1>
                             <h4 className="text-base text-muted-foreground">
@@ -77,6 +93,9 @@ const SpaceMenu = () => {
                         </div>
                     </button>
                 ))}
+            </div>
+            <div className="mt-20">
+                {isLoading && <Progress value={currState % 100}></Progress>}
             </div>
         </div>
     );
