@@ -11,6 +11,7 @@ import FileSystemItem from '@models/FileSystemItem';
 import MarkdownEditor from '@components/MarkdownEditor';
 import SideBar from '@components/SideBar';
 import { UiContext } from '@contexts/uiContext';
+import Editor from '@components/Editor';
 
 const Home = () => {
     const uiContextObj = useContext(UiContext);
@@ -21,7 +22,7 @@ const Home = () => {
         <div className="flex flex-row gap-2 w-full h-full bg-background">
             <SideBar />
             <div className="w-full h-full px-12">
-                <MarkdownEditor />
+                <Editor />
             </div>
         </div>
     );
