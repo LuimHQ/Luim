@@ -8,9 +8,10 @@ import { LuSearch } from 'react-icons/lu';
 import React, { useContext, useEffect, useState } from 'react';
 import FileCmp from '@components/FileCmp';
 import FileSystemItem from '@models/FileSystemItem';
-import MarkdownEditor from '@components/MarkdownEditor';
+import Editor from '@components/Editor';
 import SideBar from '@components/SideBar';
 import { UiContext } from '@contexts/uiContext';
+import { ForwardRefEditor } from '@components/ForwardRef';
 
 const Home = () => {
     const uiContextObj = useContext(UiContext);
@@ -21,7 +22,7 @@ const Home = () => {
         <div className="flex flex-row gap-2 w-full h-full bg-background">
             <SideBar />
             <div className="w-full h-full px-12">
-                <MarkdownEditor />
+                <ForwardRefEditor markdown={ "# Hello"} />
             </div>
         </div>
     );
