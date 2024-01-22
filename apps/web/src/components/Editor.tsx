@@ -1,6 +1,4 @@
 'use client'
-// InitializedMDXEditor.tsx
-import '@mdxeditor/editor/style.css'
 import type { ForwardedRef } from 'react'
 import {
   headingsPlugin,
@@ -13,7 +11,6 @@ import {
   type MDXEditorProps
 } from '@mdxeditor/editor'
 
-// Only import this to the next file
 export default function InitializedMDXEditor({
   editorRef,
   ...props
@@ -21,7 +18,6 @@ export default function InitializedMDXEditor({
   return (
     <MDXEditor
       plugins={[
-        // Example Plugin Usage
         headingsPlugin(),
         listsPlugin(),
         quotePlugin(),

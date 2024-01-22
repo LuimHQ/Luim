@@ -10,7 +10,6 @@ import {
   MDXEditor,
   type MDXEditorMethods,
   type MDXEditorProps,
-  setMarkdown$
 } from '@mdxeditor/editor'
 import React, { FC, forwardRef, useEffect, useState } from 'react'
 // ForwardRefEditor.tsx
@@ -21,9 +20,12 @@ const Editor = dynamic(() => import('./Editor'), {
   ssr: false
 })
 
-// This is what is imported by other components. Pre-initialized with plugins, and ready
+// This is what is imported by other components. 
+//Pre - initialized with plugins, and ready
 // to accept other props, including a ref.
-export const ForwardRefEditor = forwardRef<MDXEditorMethods, MDXEditorProps>((props, ref) => <Editor {...props} editorRef={ref} />)
+export const ForwardRefEditor =
+  forwardRef<MDXEditorMethods, MDXEditorProps>((props, ref) =>
+    <Editor {...props} editorRef={ref} />)
 
 // TS complains without the following line
 ForwardRefEditor.displayName = 'ForwardRefEditor'

@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    corePlugins: {
+        preflight: false,
+    }, 
     darkMode: ['class'],
     content: [
         './pages/**/*.{ts,tsx}',
@@ -7,7 +10,7 @@ module.exports = {
         './app/**/*.{ts,tsx}',
         './src/**/*.{ts,tsx}',
         './src/styles/globals.css',
-    ],
+    ], 
     theme: {
         container: {
             center: true,

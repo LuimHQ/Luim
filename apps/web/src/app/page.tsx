@@ -1,6 +1,5 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import { Button, Card } from 'ui';
 import SpaceMenu from '@components/SpaceMenu';
 import { Space_Mono } from 'next/font/google';
 import SideBar from '@components/SideBar';
