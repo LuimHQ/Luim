@@ -1,7 +1,6 @@
 import '@styles/globals.css';
+import '@mdxeditor/editor/style.css';
 import { Metadata } from 'next';
-// include styles from the ui package
-import 'ui/styles.css';
 import Navbar from '@components/Navbar';
 import { FilesContextProvider } from '@contexts/FilesContext';
 import { ThemeProvider } from '@components/ui/ThemeProvider';
