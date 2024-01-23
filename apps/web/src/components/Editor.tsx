@@ -74,7 +74,7 @@ export default function InitializedMDXEditor({
 }: { editorRef: ForwardedRef<MDXEditorMethods> | null } & MDXEditorProps) {
 	return (
 		<MDXEditor
-			className="dark-theme"
+			className="dark: dark-theme dark-editor min-w"  
 			plugins={[
 				directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
 				headingsPlugin(),
@@ -94,7 +94,7 @@ export default function InitializedMDXEditor({
 				diffSourcePlugin({ diffMarkdown: 'An older version', viewMode: 'rich-text' }), 
 				toolbarPlugin({
 					toolbarContents: () => (
-						<>
+						<div className='flex flex-row p-1'>
 							
 							<BoldItalicUnderlineToggles />
 							<CreateLink />
@@ -120,7 +120,7 @@ export default function InitializedMDXEditor({
 							<DiffSourceToggleWrapper>
 								<UndoRedo />
 							</DiffSourceToggleWrapper>
-						</>
+						</div>
 					)
 				})
 			]}
