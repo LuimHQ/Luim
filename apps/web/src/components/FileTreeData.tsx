@@ -1,8 +1,8 @@
-'use-client';
-import { FilesContext } from '@contexts/FilesContext';
-import FileSystemItem from '@models/FileSystemItem';
-import React, { useContext, useEffect, useState } from 'react';
-import FileTree from './FileTree';
+"use-client";
+import { FilesContext } from "@contexts/FilesContext";
+import FileSystemItem from "@models/FileSystemItem";
+import React, { useContext, useEffect, useState } from "react";
+import FileTree from "./FileTree";
 
 const FileTreeData = () => {
     const [isLoaded, setIsLoaded] = useState(0);
@@ -15,7 +15,6 @@ const FileTreeData = () => {
         return (
             <div className="flex flex-col w-full max-h-full overflow-y-scroll overflow-x-visible text-sm scrollbar">
                 <FileTree entry={contextObj?.rootFolder} />
-                <div className="py-32"></div>
             </div>
         );
     }

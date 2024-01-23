@@ -1,22 +1,22 @@
-import '@styles/globals.css';
-import '@mdxeditor/editor/style.css';
-import { Metadata } from 'next';
-import Navbar from '@components/Navbar';
-import { FilesContextProvider } from '@contexts/FilesContext';
-import { ThemeProvider } from '@components/ui/ThemeProvider';
-import { Space_Mono } from 'next/font/google';
-import { UiContextProvider } from '@contexts/uiContext';
+import "@styles/globals.css";
+import "@mdxeditor/editor/style.css";
+import { Metadata } from "next";
+import Navbar from "@components/Navbar";
+import { FilesContextProvider } from "@contexts/FilesContext";
+import { ThemeProvider } from "@components/ui/ThemeProvider";
+import { Space_Mono } from "next/font/google";
+import { UiContextProvider } from "@contexts/uiContext";
 
 // If loading a variable font, you don't need to specify the font weight
 const space_mono = Space_Mono({
-    weight: ['400', '700'],
-    style: ['normal', 'italic'],
-    subsets: ['latin'],
-    display: 'swap',
+    weight: ["400", "700"],
+    style: ["normal", "italic"],
+    subsets: ["latin"],
+    display: "swap",
 });
 
 export const metadata: Metadata = {
-    title: 'Luim-Knowledge at space',
+    title: "Luim-Knowledge at space",
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
     return (
         <html lang="en" className="">
             <body
-                className={`flex flex-col dark w-full ${space_mono.className} no-scrollbar overflow-hidden h-screen`}
+                className={`flex flex-col w-screen h-screen bg-background ${space_mono.className} overflow no-scrollbar`}
             >
                 <ThemeProvider
                     attribute="class"
@@ -37,7 +37,7 @@ export default function RootLayout({
                 >
                     <UiContextProvider>
                         <Navbar></Navbar>
-                        <div className="pt-12 w-full h-full">
+                        <div className="flex flex-col w-full h-full">
                             <FilesContextProvider>
                                 {children}
                             </FilesContextProvider>

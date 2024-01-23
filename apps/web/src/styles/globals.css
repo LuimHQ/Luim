@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '../../../../node_modules/@mdxeditor/editor/dist/style.css';
+@import "../../../../node_modules/@mdxeditor/editor/dist/style.css";
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -14,9 +14,7 @@
 }
 body {
     scrollbar-gutter: stable both-edges;
-}
-html {
-    overflow-y: scroll;
+    margin: 0px;
 }
 
 @layer base {
@@ -99,6 +97,50 @@ html {
     background-color: hsl(var(--accent));
 }
 
+/* Reapplying the preflight things */
+*,
+::before,
+::after {
+    border-width: 0;
+    border-style: solid;
+    border-color: theme("borderColor.DEFAULT", currentColor);
+}
+
+html {
+    overflow-y: scroll;
+}
+img,
+video {
+    max-width: 100%;
+    height: auto;
+}
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+figure,
+p,
+pre {
+    margin: 0;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+    display: block;
+    vertical-align: middle;
+}
 /* @layer base { */
 /*     * { */
 /*         @apply border-border; */
