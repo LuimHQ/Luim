@@ -71,7 +71,7 @@ export default function InitializedMDXEditor({
 }: { editorRef: ForwardedRef<MDXEditorMethods> | null } & MDXEditorProps) {
     return (
         <MDXEditor
-            className="dark: dark-theme dark-editor min-w"
+            className="dark: dark-theme dark-editor min-w h-max"
             plugins={[
                 directivesPlugin({
                     directiveDescriptors: [AdmonitionDirectiveDescriptor],

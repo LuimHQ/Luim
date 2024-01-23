@@ -47,9 +47,9 @@ const Home = () => {
 
     const handleEditorChange = (markdown: string) => {
         setMarkdown(markdown);
-        console.log(markdown);
-        if (contextObj?.currFile !== null) {
-            saveFile(contextObj?.currFile as FileSystemItem, markdown);
+        const editedMarkdown = ref.current?.getMarkdown();
+        if (contextObj?.currFile !== null && editedMarkdown) {
+            saveFile(contextObj?.currFile as FileSystemItem, editedMarkdown);
         }
 
         // FileService.saveFile()
@@ -65,7 +65,9 @@ const Home = () => {
             <div className="flex w-full px-12 overflow-y-scroll max-h-full scrollbar">
                 <ForwardRefEditor
                     markdown={markdown}
-                    onChange={handleEditorChange}
+                    onBlur={(e: any) => {
+                        handleEditorChange(e.target?.innerText);
+                     }}
                     ref={ref}
                 />
             </div>
