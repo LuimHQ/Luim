@@ -62,7 +62,7 @@ const Home = () => {
     return (
         <div className="flex flex-row gap-2 w-full h-full bg-background">
             <SideBar />
-            <div className="w-full h-full px-12">
+            <div className="w-full h-full px-12 mt-4">
                 <ForwardRefEditor
                     markdown={markdown} onChange={handleEditorChange}
                     ref={ ref}
