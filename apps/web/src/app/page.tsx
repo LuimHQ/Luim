@@ -1,15 +1,15 @@
-'use client';
-import { useContext, useEffect, useState } from 'react';
-import SpaceMenu from '@components/SpaceMenu';
-import { Space_Mono } from 'next/font/google';
-import SideBar from '@components/SideBar';
-import { UiContext } from '@contexts/uiContext';
-import { FilesContext } from '@contexts/FilesContext';
+"use client";
+import { useContext, useEffect, useState } from "react";
+import SpaceMenu from "@components/SpaceMenu";
+import { Space_Mono } from "next/font/google";
+import SideBar from "@components/SideBar";
+import { UiContext } from "@contexts/uiContext";
+import { FilesContext } from "@contexts/FilesContext";
 const space_mono = Space_Mono({
-    weight: ['400', '700'],
-    style: ['normal', 'italic'],
-    subsets: ['latin'],
-    display: 'swap',
+    weight: ["400", "700"],
+    style: ["normal", "italic"],
+    subsets: ["latin"],
+    display: "swap",
 });
 export default function Home() {
     const uiContextObj = useContext(UiContext);
@@ -20,7 +20,7 @@ export default function Home() {
     }, []);
     return (
         <div
-            className={`bg-background w-full  flex h-full flex-row items-center justify-between py-2 ${space_mono.className}`}
+            className={`w-full flex h-full flex-row items-center justify-between py-2 ${space_mono.className}`}
         >
             <SideBar />
             <div className="w-full flex flex-row justify-center items-center">

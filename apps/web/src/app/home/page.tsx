@@ -1,19 +1,19 @@
-'use client';
-import FileTree from '@components/FileTree';
-import FileTreeData from '@components/FileTreeData';
-import { Input } from '@components/ui/Input';
-import { FilesContext } from '@contexts/FilesContext';
-import { CiFolderOn, CiSearch } from 'react-icons/ci';
-import { LuSearch } from 'react-icons/lu';
-import React, { useContext, useEffect, useState } from 'react';
-import FileCmp from '@components/FileCmp';
-import FileSystemItem from '@models/FileSystemItem';
-import SideBar from '@components/SideBar';
-import { UiContext } from '@contexts/uiContext';
-import { ForwardRefEditor } from '@components/ForwardRef';
-import '@mdxeditor/editor/style.css'
-import FileService from '@models/FileService';
-import { MDXEditorMethods } from '@mdxeditor/editor';
+"use client";
+import FileTree from "@components/FileTree";
+import FileTreeData from "@components/FileTreeData";
+import { Input } from "@components/ui/Input";
+import { FilesContext } from "@contexts/FilesContext";
+import { CiFolderOn, CiSearch } from "react-icons/ci";
+import { LuSearch } from "react-icons/lu";
+import React, { useContext, useEffect, useState } from "react";
+import FileCmp from "@components/FileCmp";
+import FileSystemItem from "@models/FileSystemItem";
+import SideBar from "@components/SideBar";
+import { UiContext } from "@contexts/uiContext";
+import { ForwardRefEditor } from "@components/ForwardRef";
+import "@mdxeditor/editor/style.css";
+import FileService from "@models/FileService";
+import { MDXEditorMethods } from "@mdxeditor/editor";
 
 const Home = () => {
     const ref = React.useRef<MDXEditorMethods>(null);
@@ -27,21 +27,21 @@ const Home = () => {
         await FileService.saveFile(file, contents);
     };
     const contextObject = useContext(FilesContext);
-    const [markdown, setMarkdown] = useState<string>('');
+    const [markdown, setMarkdown] = useState<string>("");
     useEffect(() => {
         console.log(contextObject?.currFile);
-        
+
         if (
             contextObject?.currFile != null &&
             contextObj?.currFile != undefined
         ) {
             openFile(contextObj?.currFile).then((contents) => {
                 console.log(contents);
-                
+
                 ref.current?.setMarkdown(contents);
             });
         } else {
-            setMarkdown('');
+            setMarkdown("");
         }
     }, [contextObject?.currFile]);
 
@@ -58,14 +58,15 @@ const Home = () => {
     useEffect(() => {
         uiContextObj?.setSidebarOpen(true);
     }, []);
-    
+
     return (
         <div className="flex flex-row gap-2 w-full h-full bg-background">
             <SideBar />
-            <div className="w-full h-full px-12 mt-4">
+            <div className="flex w-full px-12 overflow-y-scroll max-h-full scrollbar">
                 <ForwardRefEditor
-                    markdown={markdown} onChange={handleEditorChange}
-                    ref={ ref}
+                    markdown={markdown}
+                    onChange={handleEditorChange}
+                    ref={ref}
                 />
             </div>
         </div>

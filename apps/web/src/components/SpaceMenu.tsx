@@ -1,17 +1,17 @@
-'use client';
-import React, { useContext, useState } from 'react';
-import { useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import { FaFolderPlus, FaFolderOpen } from 'react-icons/fa';
-import { FilesContext } from '@contexts/FilesContext';
-import Folder from '@models/Folder';
-import File from '@models/File';
-import Loading from '@components/ui/Loading';
-import { Progress } from '@components/ui/progress';
-const iconStyle = 'w-24 h-24 text-primary';
+"use client";
+import React, { useContext, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { FaFolderPlus, FaFolderOpen } from "react-icons/fa";
+import { FilesContext } from "@contexts/FilesContext";
+import Folder from "@models/Folder";
+import File from "@models/File";
+import Loading from "@components/ui/Loading";
+import { Progress } from "@components/ui/progress";
+const iconStyle = "w-24 h-24 text-primary";
 const menuOptions = [
     {
-        title: 'Open or create a new space',
+        title: "Open or create a new space",
         subTitle: "We'll store all your thoughts here",
         icon: <FaFolderPlus className={iconStyle} />,
     },
@@ -25,7 +25,7 @@ const iterateFileSystemItem = async (folder: Folder, [currState, setState]) => {
         currState++;
         // console.log(currState);
         setState(currState);
-        if (entry.kind == 'directory') {
+        if (entry.kind == "directory") {
             const currFolder = new Folder(entry.name, entry);
             folder.addChild(currFolder);
             promises.push(
@@ -48,13 +48,13 @@ const SpaceMenu = () => {
 
     const handleSelectFolder = async () => {
         let dirHandler;
-        if (typeof (window as any).showDirectoryPicker === 'function') {
+        if (typeof (window as any).showDirectoryPicker === "function") {
             dirHandler = await (window as any).showDirectoryPicker({
-                mode: 'readwrite',
+                mode: "readwrite",
             });
         } else {
             console.error(
-                'showDirectoryPicker is not supported on the browser!'
+                "showDirectoryPicker is not supported on the browser!"
             );
             return;
         }
@@ -64,8 +64,8 @@ const SpaceMenu = () => {
         setIsLoading(true);
         await iterateFileSystemItem(tempRootFolder, [currState, setState]).then(
             () => {
-                console.log('false now');
-                router.push('/home');
+                console.log("false now");
+                router.push("/home");
                 setIsLoading(false);
             }
         );

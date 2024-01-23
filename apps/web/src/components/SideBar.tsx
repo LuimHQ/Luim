@@ -1,18 +1,18 @@
-'use client';
-import FileTreeData from '@components/FileTreeData';
-import { Input } from '@components/ui/Input';
-import { FilesContext } from '@contexts/FilesContext';
-import { CiFolderOn, CiSearch } from 'react-icons/ci';
-import { LuSearch } from 'react-icons/lu';
-import React, { useContext, useEffect, useState } from 'react';
-import FileCmp from '@components/FileCmp';
-import FileSystemItem from '@models/FileSystemItem';
-import { UiContext } from '@contexts/uiContext';
+"use client";
+import FileTreeData from "@components/FileTreeData";
+import { Input } from "@components/ui/Input";
+import { FilesContext } from "@contexts/FilesContext";
+import { CiFolderOn, CiSearch } from "react-icons/ci";
+import { LuSearch } from "react-icons/lu";
+import React, { useContext, useEffect, useState } from "react";
+import FileCmp from "@components/FileCmp";
+import FileSystemItem from "@models/FileSystemItem";
+import { UiContext } from "@contexts/uiContext";
 const recur = async (folder, entries, setFiles) => {
     const children = await folder.getChildren();
     // console.log('Children of ', folder.name, ' ', children);
     for (const entry of children) {
-        if (entry.getHandler().kind == 'directory') {
+        if (entry.getHandler().kind == "directory") {
             await recur(entry, entries, setFiles);
         } else {
             entries.push(entry);
@@ -24,7 +24,7 @@ const SideBar = () => {
     const fileContextObj = useContext(FilesContext);
     let entries = [];
     const [toolOptions, setToolOptions] = useState([1, 0]);
-    const [query, setQuery] = useState('');
+    const [query, setQuery] = useState("");
     const [files, setFiles] = useState([]);
     const [filtered, setFiltered] = useState([]);
     useEffect(() => {
@@ -47,17 +47,17 @@ const SideBar = () => {
     return (
         <div
             className={`flex-col gap-4 h-full pt-4 pr-4 w-80 bg-secondary/30 ${
-                uiContextObj?.sidebarOpen ? 'flex' : 'hidden'
+                uiContextObj?.sidebarOpen ? "flex" : "hidden"
             }`}
         >
             {fileContextObj?.rootFolder ? (
                 <div className="flex flex-col gap-4 h-full">
                     <div className="flex flex-row max-w-full ml-6 gap-2  p-2 bg-secondary/50 border border-dashed border-primary/20 rounded-lg transition-all">
                         <div
-                            className={`bg-transparent flex justify-center items-center w-8 h-8 hover:bg-slate-200 rounded-[8px] p-1 hover:text-background cursor-pointer  duration-100 ${
+                            className={`bg-transparent flex justify-center items-center w-8 h-8 hover:bg-primary rounded-[8px] p-1 hover:text-background cursor-pointer  duration-100 ${
                                 toolOptions[0]
-                                    ? 'bg-slate-400 text-background'
-                                    : 'bg-transparent'
+                                    ? "bg-slate-400 text-primary"
+                                    : "bg-transparent"
                             }`}
                             onClick={() => {
                                 setToolOptions([1, 0]);
@@ -68,9 +68,9 @@ const SideBar = () => {
                         <div
                             className={`flex justify-center items-center ${
                                 toolOptions[1]
-                                    ? 'bg-slate-400 text-background'
-                                    : 'bg-transparent'
-                            } w-8 h-8 hover:bg-slate-200 rounded-[8px] p-1 hover:text-background cursor-pointer  duration-100`}
+                                    ? "bg-slate-400 text-primary"
+                                    : "bg-transparent"
+                            } w-8 h-8 hover:bg-primary rounded-[8px] p-1 hover:text-background cursor-pointer  duration-100`}
                             onClick={() => {
                                 setToolOptions([0, 1]);
                             }}
@@ -80,7 +80,7 @@ const SideBar = () => {
                     </div>
                     <div
                         className={`${
-                            toolOptions[1] ? 'flex flex-col' : 'hidden'
+                            toolOptions[1] ? "flex flex-col" : "hidden"
                         }`}
                     >
                         <div>
@@ -101,7 +101,7 @@ const SideBar = () => {
                     </div>
                     <div
                         className={`${
-                            toolOptions[0] ? 'flex h-full' : 'hidden'
+                            toolOptions[0] ? "flex h-full" : "hidden"
                         }`}
                     >
                         <FileTreeData />
