@@ -1,6 +1,6 @@
-"use client";
-import "@mdxeditor/editor/style.css";
-import type { ForwardedRef } from "react";
+'use client';
+import '@mdxeditor/editor/style.css';
+import type { ForwardedRef } from 'react';
 import {
     headingsPlugin,
     listsPlugin,
@@ -47,20 +47,20 @@ import {
     InsertFrontmatter,
     BlockTypeSelect,
     // Youtube
-} from "@mdxeditor/editor";
+} from '@mdxeditor/editor';
 
 const simpleSandpackConfig: SandpackConfig = {
-    defaultPreset: "react",
+    defaultPreset: 'react',
     presets: [
         {
-            label: "React",
-            name: "react",
-            meta: "live react",
-            sandpackTemplate: "react",
-            sandpackTheme: "dark",
-            snippetFileName: "/App.js",
-            snippetLanguage: "jsx",
-            initialSnippetContent: "",
+            label: 'React',
+            name: 'react',
+            meta: 'live react',
+            sandpackTemplate: 'react',
+            sandpackTheme: 'dark',
+            snippetFileName: '/App.js',
+            snippetLanguage: 'jsx',
+            initialSnippetContent: '',
         },
     ],
 };
@@ -71,7 +71,7 @@ export default function InitializedMDXEditor({
 }: { editorRef: ForwardedRef<MDXEditorMethods> | null } & MDXEditorProps) {
     return (
         <MDXEditor
-            className="dark: dark-theme dark-editor min-w h-max"
+            className="dark: dark-theme dark-editor h-max max-w-5xl"
             plugins={[
                 directivesPlugin({
                     directiveDescriptors: [AdmonitionDirectiveDescriptor],
@@ -85,19 +85,19 @@ export default function InitializedMDXEditor({
                 linkDialogPlugin({}),
                 tablePlugin(),
                 frontmatterPlugin(),
-                codeBlockPlugin({ defaultCodeBlockLanguage: "js" }),
+                codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
                 sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
                 codeMirrorPlugin({
                     codeBlockLanguages: {
-                        js: "JavaScript",
-                        css: "CSS",
-                        cpp: "c++",
-                        python: "python",
+                        js: 'JavaScript',
+                        css: 'CSS',
+                        cpp: 'c++',
+                        python: 'python',
                     },
                 }),
                 diffSourcePlugin({
-                    diffMarkdown: "An older version",
-                    viewMode: "rich-text",
+                    diffMarkdown: 'An older version',
+                    viewMode: 'rich-text',
                 }),
                 toolbarPlugin({
                     toolbarContents: () => (
@@ -115,14 +115,14 @@ export default function InitializedMDXEditor({
                                 options={[
                                     {
                                         when: (editor) =>
-                                            editor?.editorType === "codeblock",
+                                            editor?.editorType === 'codeblock',
                                         contents: () => (
                                             <ChangeCodeMirrorLanguage />
                                         ),
                                     },
                                     {
                                         when: (editor) =>
-                                            editor?.editorType === "sandpack",
+                                            editor?.editorType === 'sandpack',
                                         contents: () => <ShowSandpackInfo />,
                                     },
                                     {
