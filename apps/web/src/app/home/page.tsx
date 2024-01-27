@@ -14,14 +14,20 @@ import { ForwardRefEditor } from '@components/ForwardRef';
 import '@mdxeditor/editor/style.css'
 import FileService from '@models/FileService';
 import { MDXEditorMethods } from '@mdxeditor/editor';
+import Delayed from '@components/Delayed';
 
 const Home = () => {
+    // const [loading, setLoading] = useState(false);
     const ref = React.useRef<MDXEditorMethods>(null);
     const contextObj = useContext(FilesContext);
     const openFile = async (file: FileSystemItem): Promise<string> => {
-        let contents = await FileService.openFile(file);
+        // try {
+        // setLoading(true);
+        const contents = await FileService.openFile(file);
         return contents;
-        // console.log(contents);
+        // } finally {
+        // setLoading(false);
+        // }
     };
     const saveFile = async (file: FileSystemItem, contents: string) => {
         await FileService.saveFile(file, contents);
@@ -29,21 +35,18 @@ const Home = () => {
     const contextObject = useContext(FilesContext);
     const [markdown, setMarkdown] = useState<string>('');
     useEffect(() => {
-        console.log(contextObject?.currFile);
-        
         if (
             contextObject?.currFile != null &&
             contextObj?.currFile != undefined
         ) {
             openFile(contextObj?.currFile).then((contents) => {
-                console.log(contents);
-                
-                ref.current?.setMarkdown(contents);
+                // !loading && ref.current?.setMarkdown(contents);
+                ref.current?.setMarkdown(contents)
             });
         } else {
             setMarkdown('');
         }
-    }, [contextObject?.currFile]);
+    }, [contextObject?.currFile]);// , loading]);
 
     const handleEditorChange = (markdown: string) => {
         setMarkdown(markdown);
@@ -51,8 +54,6 @@ const Home = () => {
         if (contextObj?.currFile !== null) {
             saveFile(contextObj?.currFile as FileSystemItem, markdown);
         }
-
-        // FileService.saveFile()
     };
     const uiContextObj = useContext(UiContext);
     useEffect(() => {
@@ -63,10 +64,15 @@ const Home = () => {
         <div className="flex flex-row gap-2 w-full h-full bg-background">
             <SideBar />
             <div className="w-full h-full px-12 mt-4">
-                <ForwardRefEditor
-                    markdown={markdown} onChange={handleEditorChange}
-                    ref={ ref}
-                />
+                <Delayed>
+                    
+                    <ForwardRefEditor
+                        markdown={markdown} onChange={handleEditorChange}
+                        ref={ref}
+                    />
+                    {/* <div className={!loading ? 'block' : 'hidden' }><p className='text-slate-100'></p></div> */}
+                    
+                </Delayed>
             </div>
         </div>
     );

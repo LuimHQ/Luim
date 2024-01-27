@@ -16,15 +16,9 @@ import {
 	MDXEditor,
 	InsertThematicBreak,
 	ListsToggle,
-	// links 
 	linkPlugin, 
-	// For Table
 	tablePlugin, 
 	InsertTable, 
-	// custom 
-	// image
-	InsertImage,
-	imagePlugin,
 	type MDXEditorMethods,
 	type MDXEditorProps,
 	ConditionalContents,
@@ -38,15 +32,9 @@ import {
 	SandpackConfig,
 	diffSourcePlugin,
 	DiffSourceToggleWrapper,
-	directivesPlugin,
-	// Admotions 
-	AdmonitionDirectiveDescriptor,
-	InsertAdmonition,
-	// Frontmatter 
 	frontmatterPlugin,
 	InsertFrontmatter,
 	BlockTypeSelect,
-	// Youtube 
 
 } from '@mdxeditor/editor'
 
@@ -76,7 +64,6 @@ export default function InitializedMDXEditor({
 		<MDXEditor
 			className="dark-theme"
 			plugins={[
-				directivesPlugin({ directiveDescriptors: [AdmonitionDirectiveDescriptor] }),
 				headingsPlugin(),
 				listsPlugin(),
 				quotePlugin(),
@@ -102,7 +89,7 @@ export default function InitializedMDXEditor({
 							<InsertTable />
 							<InsertThematicBreak /> 
 							<ListsToggle />
-							<InsertAdmonition />
+							{/* <InsertAdmonition /> */}
 							<InsertFrontmatter />
 							<BlockTypeSelect />
 							<ConditionalContents
