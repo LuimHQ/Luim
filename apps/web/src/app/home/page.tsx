@@ -78,7 +78,7 @@ const Home = () => {
                     ref={sideBarRef}
                     maxSize={40}
                     collapsible={true}
-                    minSize={10}
+                    minSize={15}
                     collapsedSize={0}
                     defaultSize={30}
                 >

@@ -1,9 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "../../../../node_modules/@mdxeditor/editor/dist/style.css";
-@import url("@radix-ui/colors/tomato-dark.css");
-@import url("@radix-ui/colors/mauve-dark.css");
+@import '../../../../node_modules/@mdxeditor/editor/dist/style.css';
+@import url('@radix-ui/colors/tomato-dark.css');
+@import url('@radix-ui/colors/mauve-dark.css');
 
 .dark-editor {
     --accentBase: var(--tomato-1);
@@ -47,11 +47,11 @@
     --admonitionNoteBg: var(--mauve-4);
     --admonitionNoteBorder: var(--mauve-8);
 
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
         sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-        "Liberation Mono", "Courier New", monospace;
+        'Liberation Mono', 'Courier New', monospace;
 
     color: var(--baseText);
     --basePageBg: black;
@@ -158,7 +158,7 @@ body {
 ::after {
     border-width: 0;
     border-style: solid;
-    border-color: theme("borderColor.DEFAULT", currentColor);
+    border-color: theme('borderColor.DEFAULT', currentColor);
 }
 
 html {
@@ -195,6 +195,18 @@ embed,
 object {
     display: block;
     vertical-align: middle;
+}
+
+/* Text selection styles */
+::selection {
+    background: #0a1020;
+    color: white;
+}
+
+/* Text selection styles for dark theme */
+.dark ::selection {
+    background: white;
+    color: #0a1020;
 }
 /* @layer base { */
 /*     * { */

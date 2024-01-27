@@ -1,8 +1,8 @@
-'use client';
-import Folder from '@models/Folder';
-import File from '@models/File';
-import React from 'react';
-import { createContext, useState } from 'react';
+"use client";
+import Folder from "@models/Folder";
+import File from "@models/File";
+import React from "react";
+import { createContext, useState } from "react";
 export type FolderContextValue = {
     rootFolder: Folder | null;
     setRootFolder: React.Dispatch<React.SetStateAction<Folder | null>>;
@@ -20,6 +20,7 @@ export const FilesContext = createContext<FolderContextValue | null>(null);
 export const FilesContextProvider = ({ children }) => {
     const [rootFolder, setRootFolder] = useState<Folder | null>(null);
     const [currFile, setCurrFile] = useState<File | null>(null);
+
     return (
         <FilesContext.Provider
             value={{ rootFolder, setRootFolder, currFile, setCurrFile }}
