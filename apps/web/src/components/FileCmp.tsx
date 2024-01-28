@@ -76,6 +76,12 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
         file.getName().length > 40
             ? file.getName().slice(0, 35) + ' ...'
             : file.getName();
+
+    const formatFileName = (file: File) => {
+        return file?.name?.length > 40
+            ? file?.name.slice(0, 35) + ' ...'
+            : file?.name;
+    };
     let prefix: string, match: string, suffix: string;
     let matchIndex =
         matched != undefined
@@ -124,7 +130,11 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
                             }
                         }}
                         className={`w-full  text-sm py-2 hover:bg-secondary duration-100 px-1.5 rounded-sm cursor-pointer break-words ${
-                            onContext ? 'bg-secondary' : 'bg-transparent'
+                            onContext ||
+                            formatFileName(contextObject?.currFile as File) ==
+                                name
+                                ? 'bg-secondary'
+                                : 'bg-transparent'
                         }`}
                         contentEditable={renameFileState}
                     >
