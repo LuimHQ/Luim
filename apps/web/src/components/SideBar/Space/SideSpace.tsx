@@ -1,7 +1,8 @@
-import { supabase } from "@lib/supabaseClient";
-import React, { useContext, useEffect, useState } from "react";
-import SpaceSignInUp from "./SpaceSignInUp";
-import { AuthContext } from "@contexts/AuthContext";
+import { supabase } from '@lib/supabaseClient';
+import React, { useContext, useEffect, useState } from 'react';
+import SpaceSignInUp from './SpaceSignInUp';
+import { AuthContext } from '@contexts/AuthContext';
+import SpaceHome from './SpaceHome';
 
 const SideSpace = (props) => {
     const authProvider = useContext(AuthContext);
@@ -16,7 +17,7 @@ const SideSpace = (props) => {
     return (
         <div className="flex flex-col justify-start w-full py-8">
             {signedIn ? (
-                <div>Public space</div>
+                <SpaceHome></SpaceHome>
             ) : (
                 <div className="flex flex-col justify-start">
                     <SpaceSignInUp></SpaceSignInUp>
