@@ -51,7 +51,7 @@ export const AuthContextProvider = ({ children }) => {
                         userName: formData.userName,
                     },
                     emailRedirectTo:
-                        'http://localhost:3000/home/email_verified',
+                        'https://luim-web.vercel.app/home/email_verified',
                 },
             });
             if (error) {
