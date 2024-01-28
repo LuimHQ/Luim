@@ -1,8 +1,8 @@
-"use client";
-import { SupabaseClient, User, UserResponse } from "@supabase/supabase-js";
-import { supabase } from "../lib/supabaseClient";
-import { createContext, ReactNode, useEffect, useState } from "react";
-import React from "react";
+'use client';
+import { SupabaseClient, User, UserResponse } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabaseClient';
+import { createContext, ReactNode, useEffect, useState } from 'react';
+import React from 'react';
 
 export type FormData = {
     userName: string;
@@ -51,22 +51,22 @@ export const AuthContextProvider = ({ children }) => {
                         userName: formData.userName,
                     },
                     emailRedirectTo:
-                        "http://localhost:3000/home/email_verified",
+                        'http://localhost:3000/home/email_verified',
                 },
             });
             if (error) {
-                console.error("Error signing in:", error.message);
+                console.error('Error signing in:', error.message);
                 return { user: null, error };
             }
             if (!data.user?.confirmed_at) {
                 return {
                     user: null,
-                    error: new Error("Please verify your email address!"),
+                    error: new Error('Please verify your email address!'),
                 };
             }
             return { user: data.user, error: null };
         } catch (error) {
-            console.error("Error signing up:", error.message);
+            console.error('Error signing up:', error.message);
             return { user: null, error };
         }
     }
@@ -80,13 +80,13 @@ export const AuthContextProvider = ({ children }) => {
                 password: formData.password,
             });
             if (error) {
-                console.error("Error signing in:", error.message);
+                console.error('Error signing in:', error.message);
                 return { user: null, error };
             }
             setUser(data.user);
             return { user: data.user, error: null };
         } catch (error) {
-            console.error("Error signing in:", error.message);
+            console.error('Error signing in:', error.message);
             return { user: null, error };
         }
     }
@@ -97,7 +97,7 @@ export const AuthContextProvider = ({ children }) => {
             await supabase.auth.signOut();
             setUser(null);
         } catch (error) {
-            console.error("Error signing out:", error.message);
+            console.error('Error signing out:', error.message);
         }
     }
     const value: AuthContextType = {

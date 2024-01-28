@@ -48,6 +48,7 @@ const SpaceMenu = () => {
     const ref = useRef<HTMLInputElement>(null); // To ref the input element
     const router = useRouter();
 
+    // Empty dependency array means it will only run once, similar to componentDidMount
     const handleSelectFolder = async () => {
         let dirHandler;
         if (typeof (window as any).showDirectoryPicker === 'function') {
@@ -62,7 +63,7 @@ const SpaceMenu = () => {
         }
 
         tempRootFolder = new Folder(dirHandler.name, dirHandler);
-        console.log(dirHandler);
+        console.log('From selector: ', tempRootFolder);
         setIsLoading(true);
         await iterateFileSystemItem(tempRootFolder, [currState, setState]).then(
             () => {
@@ -71,6 +72,7 @@ const SpaceMenu = () => {
                 setIsLoading(false);
             }
         );
+
         contextObj?.setRootFolder(tempRootFolder);
     };
 

@@ -3,6 +3,7 @@ import File from '@models/File';
 import { BsPencil, BsTrash } from 'react-icons/bs';
 import FileService from '@models/FileService';
 import { FilesContext } from '@contexts/FilesContext';
+import { FaPlusCircle } from 'react-icons/fa';
 
 import {
     ContextMenu,
@@ -12,6 +13,18 @@ import {
 } from '@components/ui/context-menu';
 import { ContextMenuSeparator } from '@radix-ui/react-context-menu';
 import { AiOutlineAlignLeft } from 'react-icons/ai';
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+} from '@components/ui/dropdown-menu';
+import {
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+} from './ui/dropdown-menu';
+import { supabase } from '@lib/supabaseClient';
+import { AuthContext } from '@contexts/AuthContext';
 
 interface fileCmpProps {
     file: File;
@@ -19,6 +32,10 @@ interface fileCmpProps {
 }
 
 const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
+    const [JoinedSpaceloading, setJoinedSpaceLoading] = useState(false);
+    // load the joined spaces
+    const loadJoined = async () => {};
+
     const [renameFileState, setRenameFileState] = useState<boolean>(false);
     const contextObject = useContext(FilesContext);
     const setCurrFile = () => {
@@ -53,6 +70,11 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
             icon: BsTrash,
             style: 'destructive',
         },
+        {
+            displayText: 'Add to a space',
+            type: 'dropdown',
+            icon: FaPlusCircle,
+        },
     ];
     const [onContext, setonContext] = useState(false);
     const ref = React.useRef<HTMLDivElement>(null);
@@ -71,6 +93,55 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
         };
         document.addEventListener('mousedown', listenOutside);
     });
+
+    const authProvider = useContext(AuthContext);
+    const [joinedSpaces, setJoinedSpaces] = useState<Array<any>>([]);
+    const getJoinedSpaces = async () => {
+        try {
+            setJoinedSpaceLoading(false);
+            const { data, error, status } = await supabase
+                .from('users_in_spaces')
+                .select(
+                    `
+                        space_id, spaces(id, title)
+                        `
+                )
+                .eq('user_id', authProvider?.user?.id);
+
+            if (error && status !== 406) {
+                throw error;
+            }
+
+            if (data) {
+                console.log(data);
+                setJoinedSpaces(data);
+            }
+        } catch (error) {
+            alert('Error loading user data!');
+        } finally {
+            setJoinedSpaceLoading(false);
+        }
+    };
+
+    const insertNote = async (spaceInfo: any) => {
+        const fileContent = await contextObject?.openFile(file);
+        console.log('spaceinfo here: ', spaceInfo);
+        try {
+            const { data, error } = await supabase
+                .from('notes')
+                .insert([
+                    {
+                        title: file.name,
+                        content: fileContent,
+                        space_id: spaceInfo.id,
+                        user_id: authProvider?.user?.id,
+                    },
+                ])
+                .select();
+        } catch (error) {
+            alert('Error inserting notes');
+        }
+    };
 
     const name: string =
         file.getName().length > 40
@@ -144,7 +215,10 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
                 <ContextMenuContent className="p-3 bg-background/90 text-foreground backdrop-blur-lg border-foreground/50 shadow-xl">
                     {fileOptions.map((item, index) => (
                         <ContextMenuItem
-                            onClick={item.handler}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                item.handler;
+                            }}
                             className={`cursor-pointer px-4 ${
                                 item.style == 'destructive'
                                     ? 'text-destructive'
@@ -152,12 +226,49 @@ const FileCmp: React.FC<fileCmpProps> = ({ file, matched }) => {
                             }`}
                             key={index}
                         >
-                            <div className="flex flex-flow gap-2">
-                                <div>
-                                    <item.icon className="w-5 h-5" />
+                            {item?.type == 'dropdown' ? (
+                                <DropdownMenu
+                                    onOpenChange={async (open) => {
+                                        if (open) {
+                                            await getJoinedSpaces();
+                                        }
+                                    }}
+                                >
+                                    <DropdownMenuTrigger asChild>
+                                        <div className="flex flex-flow gap-2">
+                                            <div>
+                                                <item.icon className="w-5 h-5" />
+                                            </div>
+                                            <div>{item.displayText}</div>
+                                        </div>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-56">
+                                        <DropdownMenuLabel>
+                                            Connected Spaces
+                                        </DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        {joinedSpaces.map((item, index) => (
+                                            <DropdownMenuItem
+                                                key={index}
+                                                className="cursor-pointer"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    insertNote(item.spaces);
+                                                }}
+                                            >
+                                                <div>{item.spaces.title}</div>
+                                            </DropdownMenuItem>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
+                            ) : (
+                                <div className="flex flex-flow gap-2">
+                                    <div>
+                                        <item.icon className="w-5 h-5" />
+                                    </div>
+                                    <div>{item.displayText}</div>
                                 </div>
-                                <div>{item.displayText}</div>
-                            </div>
+                            )}
                         </ContextMenuItem>
                     ))}
                 </ContextMenuContent>
