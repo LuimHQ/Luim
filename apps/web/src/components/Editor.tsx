@@ -1,6 +1,7 @@
 'use client'
 import '@mdxeditor/editor/style.css';
-import type { ForwardedRef } from 'react'; 
+import { useContext, type ForwardedRef } from 'react'; 
+
 import {
 	headingsPlugin,
 	listsPlugin,
@@ -34,9 +35,13 @@ import {
 	DiffSourceToggleWrapper,
 	frontmatterPlugin,
 	InsertFrontmatter,
-	BlockTypeSelect,
+    BlockTypeSelect,
+    imagePlugin, 
+    InsertImage
 
 } from '@mdxeditor/editor'
+import FileSystemItem from '@models/FileSystemItem';
+import { FilesContext, FilesContextProvider } from '@contexts/FilesContext';
 
 const simpleSandpackConfig: SandpackConfig = {
 	defaultPreset: 'react',
@@ -60,6 +65,8 @@ export default function InitializedMDXEditor({
 	editorRef,
 	...props
 }: { editorRef: ForwardedRef<MDXEditorMethods> | null } & MDXEditorProps) {
+	const contextObj = useContext(FilesContext);
+	
 	return (
 		<MDXEditor
 			className="dark-theme"
@@ -69,12 +76,18 @@ export default function InitializedMDXEditor({
 				quotePlugin(),
 				thematicBreakPlugin(),
 				markdownShortcutPlugin(),
+				
 				linkPlugin(),
 				linkDialogPlugin({
 					
 				}), 
 				tablePlugin(), 
 				frontmatterPlugin(), 
+				imagePlugin({
+					imageUploadHandler: (image: File) => {
+						return Promise.resolve(image.name);
+					},
+				}), 
 				codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
 				sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
 				codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', css: 'CSS', cpp: 'c++', python: 'python'} }), 
@@ -84,12 +97,12 @@ export default function InitializedMDXEditor({
 						<>
 							
 							<BoldItalicUnderlineToggles />
-							<CreateLink />
+                            <CreateLink />
+                            <InsertImage />
 							<CodeToggle />
 							<InsertTable />
 							<InsertThematicBreak /> 
 							<ListsToggle />
-							{/* <InsertAdmonition /> */}
 							<InsertFrontmatter />
 							<BlockTypeSelect />
 							<ConditionalContents
