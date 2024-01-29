@@ -1,51 +1,26 @@
-# Turborepo Tailwind CSS starter
+# Luim: A collaborative knowledge management app
 
-This is an official starter Turborepo.
+Luim is a collaborative knowledge management app. You can start by choosing a folder as your personal space. All files stay locally until you choose to share it to a space. You can connect other public spaces to your personal space. 
 
-## Using this example
+Let's say you're navigating the vast field of Quantum Physics. Your personal space is your canvas, but what if you could effortlessly link up with other knowledge enthusiasts exploring the same domain? By connecting their public spaces to yours, you gain the ability to peek into their insights, draw inspiration, and enrich your own learning journey.
 
-Run the following command:
+Live link: [Luim](https://luim-web.vercel.app)
 
-```sh
-npx create-turbo@latest -e with-tailwind
-```
+### On the process: 
+- [ ] Show status of sign in and sign up. 
+- [ ] Persist the personal space between sessions. 
+- [ ] Create files, Delete files.
+- [ ] Documentation.
 
-## What's inside?
+### Backlog: 
+- [ ] Implement a full text search engine for quick search using any keywords. 
+- [ ] Implement bi-linking between notes.
+- [ ] Restructure the personal space, public space concept for a better collaboration of knowledge.
+- [ ] Allow users to manage multiple personal space.
 
-This Turborepo includes the following packages/apps:
+## Technology used
+- [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
+- Database and Storage:[Supabase](https://supabase.com)
 
-### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Building packages/ui
-
-This example is setup to build `packages/ui` and output the transpiled source and compiled styles to `dist/`. This was chosen to make sharing one `tailwind.config.js` as easy as possible, and to ensure only the CSS that is used by the current application and its dependencies is generated.
-
-Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update your `tailwind.config.js` to be aware of your package locations, so it can find all usages of the `tailwindcss` class names.
-
-For example, in [tailwind.config.js](packages/tailwind-config/tailwind.config.js):
-
-```js
-  content: [
-    // app content
-    `src/**/*.{js,ts,jsx,tsx}`,
-    // include packages if not transpiling
-    "../../packages/**/*.{js,ts,jsx,tsx}",
-  ],
-```
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
